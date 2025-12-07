@@ -1,0 +1,66 @@
+/* Admin Table Fix - Add this to your style.css or create separate file */
+
+.bookings-table-container {
+    overflow-x: auto;
+    overflow-y: visible;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.bookings-table {
+    min-width: 1400px; /* Ensures table doesn't shrink too much */
+    width: 100%;
+}
+
+.bookings-table th:last-child,
+.bookings-table td:last-child {
+    position: sticky;
+    right: 0;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    min-width: 120px;
+    text-align: center;
+}
+
+.bookings-table th:last-child {
+    background: #333;
+    z-index: 2;
+}
+
+.print-btn {
+    padding: 8px 15px;
+    background: #d4af37;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.3s;
+}
+
+.print-btn:hover {
+    background: #b8941f;
+}
+
+.print-btn:active {
+    transform: scale(0.95);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .bookings-table {
+        font-size: 12px;
+    }
+    
+    .bookings-table th,
+    .bookings-table td {
+        padding: 8px;
+    }
+    
+    .print-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+}

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Tima Sara Hotel Management</title>
+    <link rel="stylesheet" href="../css/admin-style.css">
+    <style>
+        /* Responsive Dashboard Fixes */
+        .main-content {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* First row: 3 cards in desktop, stack in mobile */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 100%;
+        }
+        
+        /* Second row: 2/3 + 1/3 layout for desktop */
+        .dashboard-grid-bottom {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        /* Desktop: Monthly Trend (2/3) + Occupancy (1/3) side by side */
+        @media (min-width: 768px) {
+            .dashboard-grid-bottom {
+                grid-template-columns: 2fr 1fr;
+            }
+            
+        }
+        
+        @media (max-width: 767px) {
+            .dashboard-card {
+                min-width: 0 !important;
+                width: 100% !important;
+            }
+            
+            /* Mobile: Stack in order - Status, Arrivals, Departures, Occupancy, Trend */
+            .occupancy-card {
+                order: 4;
+            }
+            
+            .trend-card {
+                order: 5;
+            }
+              .top-bar {
+            margin-top: 50px;
+        }
+        }
+    </style>
+</head>
+<body class="dashboard-page">
+    <!-- Mobile Header (visible only on mobile) -->
+<div class="mobile-admin-header">
+    <div class="mobile-header-left">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+            ☰
+        </button>
+        <div class="mobile-header-title">
+            <span class="mobile-hotel-name">TIMA SARA HOTEL</span>
+            <span class="mobile-hms-label">Management System</span>
+        </div>
+    </div>
+    <div class="mobile-user-badge">
+        <span>👤</span>
+        <span class="mobile-user-name">User</span>
+    </div>
+</div>
+
+<!-- Sidebar Overlay (for closing menu) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Existing Sidebar (keep as is) -->
+    <aside class="sidebar" id="adminSidebar">
+    <!-- Your existing sidebar content -->
+      <div class="sidebar-header">
+            <a href="https://timasarahotel.com" target="_blank" style="text-decoration: none; color: inherit;">
+            <img src="../images/tima_sara_logo.png" alt="Tima Sara Hotel" class="sidebar-logo">
+            <div class="hotel-logo-small" style="cursor: pointer; transition: transform 0.3s ease;">
+            </div>
+            </a>
+            <h2>TIMA SARA<br><span>HOTEL</span></h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="admin-reservations.html" class="nav-item">
+                <span class="nav-icon">📅</span>
+                <span>Reservations</span>
+            </a>
+            <a href="admin-guests.html" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Guests</span>
+            </a>
+            <a href="admin-rooms.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span>Rooms</span>
+            </a>
+            <a href="admin-housekeeping.html" class="nav-item">
+                <span class="nav-icon">🧹</span>
+                <span>Housekeeping</span>
+            </a>
+            <a href="admin-pos.html" class="nav-item">
+                <span class="nav-icon">🍽️</span>
+                <span>Restaurant & Bar</span>
+            </a>
+            <a href="admin-analytics.html" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+            <a href="admin-reports.html" class="nav-item">
+                <span class="nav-icon">📄</span>
+                <span>Reports</span>
+            </a>
+            <a href="admin-invoices.html" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Invoices</span>
+            </a>
+            <a href="admin-sms.html" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>SMS Notifications</span>
+            </a>
+            <a href="admin-communications.html" class="nav-item">
+                <span class="nav-icon">📧</span>
+                <span>Communications</span>
+            </a>
+            <a href="admin-settings.html" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="logout-btn">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="current-datetime">
+                    <div class="time" id="currentTime">--:-- --</div>
+                    <div class="date" id="currentDate">Loading...</div>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="user-info">
+                    <span class="user-icon">👤</span>
+                    <span class="user-name" id="userName">Jacob Mahama</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Top Row: Room Status, Arrivals, Departures (3 cards) -->
+        <div class="dashboard-grid">
+            
+            <!-- 1. ROOM STATUS -->
+            <div class="dashboard-card room-status-card">
+                <h3>ROOM STATUS</h3>
+                <div class="status-list">
+                    <div class="status-item">
+                        <span class="status-dot available"></span>
+                        <span class="status-label">AVAILABLE</span>
+                        <span class="status-count" id="availableRooms">-</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-dot occupied"></span>
+                        <span class="status-label">OCCUPIED</span>
+                        <span class="status-count" id="occupiedRooms">-</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-dot cleaning"></span>
+                        <span class="status-label">CLEANING</span>
+                        <span class="status-count" id="cleaningRooms">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-dot maintenance"></span>
+                        <span class="status-label">MAINTENANCE</span>
+                        <span class="status-count" id="maintenanceRooms">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-dot reserved"></span>
+                        <span class="status-label">RESERVED</span>
+                        <span class="status-count" id="reservedRooms">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. UPCOMING ARRIVALS -->
+            <div class="dashboard-card arrivals-card">
+                <h3>UPCOMING ARRIVALS</h3>
+                <div class="arrivals-list" id="arrivalsList">
+                    <div style="text-align: center; padding: 20px; color: #718096;">
+                        Loading arrivals...
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. DEPARTURES TODAY -->
+            <div class="dashboard-card departures-card">
+                <h3>DEPARTURES TODAY</h3>
+                <div class="departures-list" id="departuresList">
+                    <div style="text-align: center; padding: 20px; color: #718096;">
+                        Loading departures...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Row: Monthly Trend (2/3) + Occupancy (1/3) -->
+        <div class="dashboard-grid-bottom">
+            
+            <!-- 4. MONTHLY OCCUPANCY TREND (2/3 width on desktop) -->
+            <div class="dashboard-card trend-card">
+                <h3>MONTHLY OCCUPANCY TREND</h3>
+                <div style="padding: 20px;">
+                    <canvas id="monthlyOccupancyChart" style="max-height: 250px;"></canvas>
+                </div>
+            </div>
+
+            <!-- 5. OCCUPANCY OVERVIEW (1/3 width on desktop) -->
+            <div class="dashboard-card occupancy-card">
+                <h3>OCCUPANCY OVERVIEW</h3>
+                <div class="occupancy-display">
+                    <div class="occupancy-fraction">
+                        <span class="occupied-count" id="occupiedCount">-</span>
+                        <span class="divider">/</span>
+                        <span class="total-count">28</span>
+                    </div>
+                    <div class="occupancy-chart">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-circle-bg" cx="60" cy="60" r="54"></circle>
+                            <circle class="progress-ring-circle" cx="60" cy="60" r="54" id="progressCircle"></circle>
+                            <text x="60" y="70" class="progress-text" id="progressText">-%</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="occupancy-details">
+                    <div class="detail-item">
+                        <span>ROOMS OCCUPIED</span>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <span>CHECK-INS TODAY:</span>
+                            <strong id="checkInsToday">-</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>CHECK-OUTS TODAY:</span>
+                            <strong id="checkOutsToday">-</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/admin/admin-script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/admin/admin-dashboard.js"></script>
+
+</body>
+</html>

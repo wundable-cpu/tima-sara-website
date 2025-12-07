@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Notifications - Tima Sara Hotel</title>
+    <link rel="stylesheet" href="../css/admin-style.css">
+    <style> 
+    .main-content {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+         .top-bar {
+        margin-top: 50px;
+    }
+    </style>
+</head>
+<body class="dashboard-page">
+    <!-- Mobile Header (visible only on mobile) -->
+<div class="mobile-admin-header">
+    <div class="mobile-header-left">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+            ☰
+        </button>
+        <div class="mobile-header-title">
+            <span class="mobile-hotel-name">TIMA SARA HOTEL</span>
+            <span class="mobile-hms-label">Management System</span>
+        </div>
+    </div>
+    <div class="mobile-user-badge">
+        <span>👤</span>
+        <span class="mobile-user-name">User</span>
+    </div>
+</div>
+
+<!-- Sidebar Overlay (for closing menu) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Existing Sidebar (keep as is) -->
+    <aside class="sidebar" id="adminSidebar">
+    <!-- Your existing sidebar content -->
+      <div class="sidebar-header">
+            <a href="https://timasarahotel.com" target="_blank" style="text-decoration: none; color: inherit;">
+            <img src="../images/tima_sara_logo.png" alt="Tima Sara Hotel" class="sidebar-logo">
+            <div class="hotel-logo-small" style="cursor: pointer; transition: transform 0.3s ease;">
+            </div>
+            </a>
+            <h2>TIMA SARA<br><span>HOTEL</span></h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="admin-reservations.html" class="nav-item">
+                <span class="nav-icon">📅</span>
+                <span>Reservations</span>
+            </a>
+            <a href="admin-guests.html" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Guests</span>
+            </a>
+            <a href="admin-rooms.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span>Rooms</span>
+            </a>
+            <a href="admin-housekeeping.html" class="nav-item">
+                <span class="nav-icon">🧹</span>
+                <span>Housekeeping</span>
+            </a>
+            <a href="admin-pos.html" class="nav-item">
+                <span class="nav-icon">🍽️</span>
+                <span>Restaurant & Bar</span>
+            </a>
+            <a href="admin-analytics.html" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+            <a href="admin-invoices.html" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Invoices</span>
+            </a>
+            <a href="admin-invoices.html" class="nav-item active">
+                <span class="nav-icon">💰</span>
+                <span>whatsapp Notifications</span>
+            </a>
+            <a href="admin-communications.html" class="nav-item">
+                <span class="nav-icon">📧</span>
+                <span>Communications</span>
+            </a>
+            <a href="admin-reports.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Reports</span>
+            </a>
+            <a href="admin-settings.html" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="logout-btn">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+     <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <h1 class="page-title">WhatsApp Notifications</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="user-info">
+                    <span class="user-icon">👤</span>
+                    <span class="user-name" id="userName">Welcome, Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-container">
+            
+            <!-- Setup Notice (if not configured) -->
+            <div id="setupNotice" class="alert alert-warning" style="display: none;">
+                <strong>⚠️ WhatsApp Not Configured</strong><br>
+                Please configure your WhatsApp API settings to start sending messages.
+                <button onclick="viewSettings()" style="margin-left: 15px; padding: 8px 16px; background: white; border: 2px solid #FF9800; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                    Configure Now
+                </button>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid" style="margin-bottom: 30px;">
+                <div class="stat-card" style="background: linear-gradient(135deg, #25D366, #128C7E);">
+                    <div class="stat-icon" style="background: white;">✅</div>
+                    <div class="stat-details" style="color: white;">
+                        <div class="stat-label" style="color: rgba(255,255,255,0.9);">Sent Today</div>
+                        <div class="stat-value" id="sentToday">-</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card" style="background: linear-gradient(135deg, #128C7E, #075E54);">
+                    <div class="stat-icon" style="background: white;">✓✓</div>
+                    <div class="stat-details" style="color: white;">
+                        <div class="stat-label" style="color: rgba(255,255,255,0.9);">Delivered</div>
+                        <div class="stat-value" id="deliveredToday">-</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FFF3E0;">⏳</div>
+                    <div class="stat-details">
+                        <div class="stat-label">Pending</div>
+                        <div class="stat-value" id="pendingMessages">-</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FFEBEE;">❌</div>
+                    <div class="stat-details">
+                        <div class="stat-label">Failed</div>
+                        <div class="stat-value" id="failedMessages">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h2 style="margin-bottom: 20px;">📤 Quick Actions</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    <button onclick="openSendWhatsAppModal()" class="action-card" style="background: linear-gradient(135deg, #25D366, #128C7E);">
+                        <div style="font-size: 48px; margin-bottom: 10px;">💬</div>
+                        <div style="font-weight: 700; font-size: 16px; color: white;">Send WhatsApp</div>
+                        <div style="font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 5px;">Send message to any guest</div>
+                    </button>
+                    
+                    <button onclick="sendCheckInReminders()" class="action-card" style="background: linear-gradient(135deg, #2196F3, #1976D2);">
+                        <div style="font-size: 48px; margin-bottom: 10px;">🏨</div>
+                        <div style="font-weight: 700; font-size: 16px; color: white;">Check-in Reminders</div>
+                        <div style="font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 5px;">For tomorrow's arrivals</div>
+                    </button>
+                    
+                    <button onclick="viewTemplates()" class="action-card" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2);">
+                        <div style="font-size: 48px; margin-bottom: 10px;">📝</div>
+                        <div style="font-weight: 700; font-size: 16px; color: white;">Manage Templates</div>
+                        <div style="font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 5px;">Edit message templates</div>
+                    </button>
+                    
+                    <button onclick="viewSettings()" class="action-card" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
+                        <div style="font-size: 48px; margin-bottom: 10px;">⚙️</div>
+                        <div style="font-weight: 700; font-size: 16px; color: white;">WhatsApp Settings</div>
+                        <div style="font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 5px;">Configure API</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Message History -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                    <h2>💬 Message History</h2>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <select id="statusFilter" style="padding: 10px 15px; border: 2px solid var(--border-color); border-radius: 8px;">
+                            <option value="all">All Status</option>
+                            <option value="sent">✅ Sent</option>
+                            <option value="delivered">✓✓ Delivered</option>
+                            <option value="pending">⏳ Pending</option>
+                            <option value="failed">❌ Failed</option>
+                        </select>
+                        
+                        <select id="typeFilter" style="padding: 10px 15px; border: 2px solid var(--border-color); border-radius: 8px;">
+                            <option value="all">All Types</option>
+                            <option value="booking_confirmation">🎉 Booking Confirmation</option>
+                            <option value="check_in_reminder">🏨 Check-in Reminder</option>
+                            <option value="check_out_reminder">👋 Check-out Reminder</option>
+                            <option value="custom">✉️ Custom</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="messagesContainer">
+                    <div style="text-align: center; padding: 40px; color: var(--text-light);">
+                        Loading message history...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Send WhatsApp Modal -->
+    <div id="whatsappModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #25D366, #128C7E); color: white;">
+                <h2>💬 Send WhatsApp Message</h2>
+                <button class="modal-close" onclick="closeWhatsAppModal()" style="color: white;">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="whatsappForm">
+                    <div class="form-group">
+                        <label for="whatsappRecipient">Select Guest *</label>
+                        <select id="whatsappRecipient" required>
+                            <option value="">-- Loading guests --</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="whatsappPhone">WhatsApp Number *</label>
+                        <input type="tel" id="whatsappPhone" required placeholder="+233XXXXXXXXX" readonly>
+                        <small style="color: var(--text-light);">Format: +233XXXXXXXXX (Ghana)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="whatsappTemplate">Use Template (Optional)</label>
+                        <select id="whatsappTemplate">
+                             <option value="">-- Custom Message --</option>
+                        </select>
+                        <small style="color: var(--text-light); display: block; margin-top: 5px;">
+                             ℹ️ Select a guest first, then choose template to auto-fill their details
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="whatsappMessage">Message *</label>
+                        <textarea id="whatsappMessage" rows="8" required placeholder="Type your message...
+
+Use *bold*, _italic_, ~strikethrough~
+✅ Emojis work great!"></textarea>
+                        <div style="text-align: right; font-size: 12px; color: var(--text-light); margin-top: 5px;">
+                            <span id="charCount">0</span> characters
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary" style="background: linear-gradient(135deg, #25D366, #128C7E);">
+                            💬 Send WhatsApp
+                        </button>
+                        <button type="button" onclick="closeWhatsAppModal()" class="btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2>⚙️ WhatsApp Settings</h2>
+                <button class="modal-close" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="alert alert-info" style="margin-bottom: 20px;">
+                    <strong>📱 Recommended: Ultramsg</strong><br>
+                    <small>Easy setup, affordable ($15-30/month), perfect for hotels</small><br>
+                    <a href="https://ultramsg.com" target="_blank" style="color: #1565c0; font-weight: 600;">Sign up at ultramsg.com →</a>
+                </div>
+                
+                <form id="settingsForm">
+                    <div class="form-group">
+                        <label for="settingProvider">WhatsApp Provider *</label>
+                        <select id="settingProvider">
+                            <option value="ultramsg">Ultramsg (Recommended)</option>
+                            <option value="twilio">Twilio</option>
+                            <option value="wati">WATI.io</option>
+                        </select>
+                    </div>
+                    
+                    <div id="ultramsgSettings">
+                        <div class="form-group">
+                            <label for="settingInstanceId">Ultramsg Instance ID *</label>
+                            <input type="text" id="settingInstanceId" placeholder="instance12345">
+                            <small style="color: var(--text-light);">Found in your Ultramsg dashboard</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settingApiToken">Ultramsg API Token *</label>
+                            <input type="password" id="settingApiToken" placeholder="Your API token">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="settingAutoSend" checked>
+                            <span>Automatically send booking confirmations</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="settingReminders" checked>
+                            <span>Send check-in reminders (24 hours before)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="settingTestMode">
+                            <span>Test Mode (messages logged but not sent)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">💾 Save Settings</button>
+                        <button type="button" onclick="testWhatsApp()" class="btn-secondary" style="background: #25D366; color: white; border: none;">
+                            🧪 Test Connection
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="alert" style="margin-top: 20px; background: #f8f9fa; border-left: 4px solid #25D366;">
+                    <strong>💡 Setup Instructions:</strong><br>
+                    1. Sign up at <a href="https://ultramsg.com" target="_blank">ultramsg.com</a><br>
+                    2. Create an instance and scan QR code with your phone<br>
+                    3. Copy Instance ID and API Token<br>
+                    4. Paste them above and click "Save Settings"<br>
+                    5. Click "Test Connection" to verify
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/admin/admin-script.js"></script>
+    <script src="../js/admin/admin-whatsapp.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guests - Tima Sara Hotel Management</title>
+    <link rel="stylesheet" href="../css/admin-style.css">
+    <style> 
+    .main-content {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+         @media (max-width: 768px) {
+        .top-bar {
+            margin-top: 50px;
+        }
+    }
+    </style>
+</head>
+<body class="dashboard-page">
+    <!-- Mobile Header (visible only on mobile) -->
+<div class="mobile-admin-header">
+    <div class="mobile-header-left">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+            ☰
+        </button>
+        <div class="mobile-header-title">
+            <span class="mobile-hotel-name">TIMA SARA HOTEL</span>
+            <span class="mobile-hms-label">Management System</span>
+        </div>
+    </div>
+    <div class="mobile-user-badge">
+        <span>👤</span>
+        <span class="mobile-user-name">User</span>
+    </div>
+</div>
+
+<!-- Sidebar Overlay (for closing menu) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Existing Sidebar (keep as is) -->
+    <aside class="sidebar" id="adminSidebar">
+    <!-- Your existing sidebar content -->
+      <div class="sidebar-header">
+            <a href="https://timasarahotel.com" target="_blank" style="text-decoration: none; color: inherit;">
+            <img src="../images/tima_sara_logo.png" alt="Tima Sara Hotel" class="sidebar-logo">
+            <div class="hotel-logo-small" style="cursor: pointer; transition: transform 0.3s ease;">
+            </div>
+            </a>
+            <h2>TIMA SARA<br><span>HOTEL</span></h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="admin-reservations.html" class="nav-item">
+                <span class="nav-icon">📅</span>
+                <span>Reservations</span>
+            </a>
+            <a href="admin-guests.html" class="nav-item active">
+                <span class="nav-icon">👥</span>
+                <span>Guests</span>
+            </a>
+            <a href="admin-rooms.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span>Rooms</span>
+            </a>
+            <a href="admin-housekeeping.html" class="nav-item">
+                <span class="nav-icon">🧹</span>
+                <span>Housekeeping</span>
+            </a>
+            <a href="admin-pos.html" class="nav-item">
+                <span class="nav-icon">🍽️</span>
+                <span>Restaurant & Bar</span>
+            </a>
+            <a href="admin-analytics.html" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+            <a href="admin-invoices.html" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Invoices</span>
+            </a>
+            <a href="admin-communications.html" class="nav-item">
+                <span class="nav-icon">📧</span>
+                <span>Communications</span>
+            </a>
+            <a href="admin-reports.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Reports</span>
+            </a>
+            <a href="admin-settings.html" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="logout-btn">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <h1 class="page-title">Guest Management</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="user-info">
+                    <span class="user-icon">👤</span>
+                    <span class="user-name" id="userName">Welcome, Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Guest Statistics -->
+        <div class="guest-stats-grid">
+            <div class="stat-card">            
+                <div class="stat-icon" style="background: rgba(52, 152, 219, 0.1);">👥</div>
+                <div class="stat-info">
+                    <h3 id="totalGuestsCount">0</h3>
+                    <p>Total Guests</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(39, 174, 96, 0.1);">⭐</div>
+                <div class="stat-info">
+                    <h3 id="vipGuestsCount">0</h3>
+                    <p>VIP Guests</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(155, 89, 182, 0.1);">🔄</div>
+                <div class="stat-info">
+                    <h3 id="returningGuestsCount">0</h3>
+                    <p>Returning Guests</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(241, 196, 15, 0.1);">📅</div>
+                <div class="stat-info">
+                    <h3 id="currentGuestsCount">0</h3>
+                    <p>Currently Checked In</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="guests-toolbar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by name, email, or phone...">
+                <button id="searchBtn" class="btn-primary">🔍 Search</button>
+            </div>
+            <div class="filter-box">
+                <select id="statusFilter" class="filter-dropdown">
+                    <option value="all">All Guests</option>
+                    <option value="current">🏨 Current Guests</option>
+                    <option value="past">Past Guests</option>
+                    <option value="vip">⭐ VIP Guests (3+)</option>
+                    <option value="returning">🔄 Returning Guests (2+)</option>
+                    <option value="new">🆕 New Guests (1)</option>
+                </select>
+                <button id="exportBtn" class="btn-secondary">📥 Export CSV</button>
+            </div>
+        </div>
+
+        <!-- Guests Table -->
+        <div class="guests-container">
+            <table class="table guests-table" id="guestsTable">
+    <thead>
+    <tr>
+        <th class="sticky-col">Guest Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Total Bookings</th>
+        <th>Total Spent</th>
+        <th>Last Visit</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+    <tbody id="guestsTableBody">
+        <!-- rows here -->
+    </tbody>
+</table>
+        </div>
+    </main>
+
+    <!-- Guest Profile Modal -->
+    <div id="guestModal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="modalTitle">Guest Details</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="guestModalBody">
+                <!-- Guest details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="closeGuestModalBtn">Close</button>
+                <button class="btn-primary" id="markVIPBtn">⭐ Mark as VIP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/admin/admin-script.js"></script>
+    <script src="../js/admin/admin-guests.js"></script>
+</body>
+</html>

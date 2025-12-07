@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Tima Sara Hotel Management</title>
+    <link rel="stylesheet" href="../css/admin-style.css">
+    <style>
+        .main-content {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+         @media (max-width: 768px) {
+        .top-bar {
+            margin-top: 50px;
+        }
+    }
+    </style>
+</head>
+<body class="dashboard-page">
+    <!-- Mobile Header (visible only on mobile) -->
+<div class="mobile-admin-header">
+    <div class="mobile-header-left">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+            ☰
+        </button>
+        <div class="mobile-header-title">
+            <span class="mobile-hotel-name">TIMA SARA HOTEL</span>
+            <span class="mobile-hms-label">Management System</span>
+        </div>
+    </div>
+    <div class="mobile-user-badge">
+        <span>👤</span>
+        <span class="mobile-user-name">User</span>
+    </div>
+</div>
+
+<!-- Sidebar Overlay (for closing menu) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Existing Sidebar (keep as is) -->
+    <aside class="sidebar" id="adminSidebar">
+    <!-- Your existing sidebar content -->
+  
+        <div class="sidebar-header">
+            <a href="https://timasarahotel.com" target="_blank" style="text-decoration: none; color: inherit;">
+            <img src="../images/tima_sara_logo.png" alt="Tima Sara Hotel" class="sidebar-logo">
+            <div class="hotel-logo-small" style="cursor: pointer; transition: transform 0.3s ease;">
+            </div>
+            </a>
+            <h2>TIMA SARA<br><span>HOTEL</span></h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="admin-reservations.html" class="nav-item">
+                <span class="nav-icon">📅</span>
+                <span>Reservations</span>
+            </a>
+            <a href="admin-guests.html" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Guests</span>
+            </a>
+            <a href="admin-rooms.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span>Rooms</span>
+            </a>
+            <a href="admin-housekeeping.html" class="nav-item">
+                <span class="nav-icon">🧹</span>
+                <span>Housekeeping</span>
+            </a>
+            <a href="admin-pos.html" class="nav-item">
+                <span class="nav-icon">🍽️</span>
+                <span>Restaurant & Bar</span>
+            </a>
+            <a href="admin-analytics.html" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+            <a href="admin-reports.html" class="nav-item active">
+                <span class="nav-icon">📋</span>
+                <span>Reports</span>
+            </a>
+            <a href="admin-invoices.html" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Invoices</span>
+            </a>
+            <a href="admin-sms.html" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>SMS Notifications</span>
+            </a>
+            <a href="admin-communications.html" class="nav-item">
+                <span class="nav-icon">📧</span>
+                <span>Communications</span>
+            </a>
+            <a href="admin-settings.html" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="logout-btn">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <h1 class="page-title">Detailed Reports</h1>
+            </div>
+            <div class="top-bar-right">
+                <select id="reportPeriod" class="filter-select">
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month" selected>This Month</option>
+                    <option value="quarter">This Quarter</option>
+                    <option value="year">This Year</option>
+                </select>
+                <div class="user-info">
+                    <span class="user-icon">👤</span>
+                    <span class="user-name" id="userName">Welcome, Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Report Categories -->
+        <div class="report-categories">
+            
+            <!-- Daily Audit Report -->
+            <div class="report-card">
+                <div class="report-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                    📅
+                </div>
+                <div class="report-content">
+                    <h3>Daily Audit Report</h3>
+                    <p>Complete daily operational summary</p>
+                    <ul class="report-features">
+                        <li>✓ Room occupancy breakdown</li>
+                        <li>✓ Check-ins and check-outs</li>
+                        <li>✓ Revenue summary</li>
+                        <li>✓ Outstanding payments</li>
+                    </ul>
+                    <button class="report-generate-btn" onclick="generateReport('daily-audit')">
+                        Generate Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Occupancy Forecast -->
+            <div class="report-card">
+                <div class="report-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                    📊
+                </div>
+                <div class="report-content">
+                    <h3>Occupancy Forecast</h3>
+                    <p>30-day occupancy projections</p>
+                    <ul class="report-features">
+                        <li>✓ Future bookings analysis</li>
+                        <li>✓ Room type availability</li>
+                        <li>✓ Predicted revenue</li>
+                        <li>✓ Optimal pricing periods</li>
+                    </ul>
+                    <button class="report-generate-btn" onclick="generateReport('occupancy-forecast')">
+                        Generate Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Source of Business -->
+            <div class="report-card">
+                <div class="report-icon" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                    🌐
+                </div>
+                <div class="report-content">
+                    <h3>Source of Business</h3>
+                    <p>Booking channel analysis</p>
+                    <ul class="report-features">
+                        <li>✓ Direct bookings vs OTA</li>
+                        <li>✓ Channel performance</li>
+                        <li>✓ Commission analysis</li>
+                        <li>✓ Marketing ROI</li>
+                    </ul>
+                    <button class="report-generate-btn" onclick="generateReport('source-business')">
+                        Generate Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Revenue by Room Type -->
+            <div class="report-card">
+                <div class="report-icon" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                    💵
+                </div>
+                <div class="report-content">
+                    <h3>Revenue by Room Type</h3>
+                    <p>Room performance analysis</p>
+                    <ul class="report-features">
+                        <li>✓ Revenue per room type</li>
+                        <li>✓ Average daily rate (ADR)</li>
+                        <li>✓ RevPAR comparison</li>
+                        <li>✓ Profitability insights</li>
+                    </ul>
+                    <button class="report-generate-btn" onclick="generateReport('revenue-room-type')">
+                        Generate Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Guest Analysis -->
+            <div class="report-card">
+                <div class="report-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                    👥
+                </div>
+                <div class="report-content">
+                    <h3>Guest Analysis Report</h3>
+                    <p>Guest behavior and preferences</p>
+                    <ul class="report-features">
+                        <li>✓ New vs returning guests</li>
+                        <li>✓ Average stay duration</li>
+                        <li>✓ Guest lifetime value</li>
+                        <li>✓ Preference patterns</li>
+                    </ul>
+                    <button class="report-generate-btn" onclick="generateReport('guest-analysis')">
+                        Generate Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Financial Summary -->
+            <div class="report-card">
+                <div class="report-icon" style="background: linear-gradient(135deg, #d4af37, #c4941f);">
+                    💰
+                </div>
+                <div class="report-content">
+                    <h3>Financial Summary</h3>
+                    <p>Complete financial overview</p>
+                    <ul class="report-features">
+                        <li>✓ Total revenue breakdown</li>
+                        <li>✓ Payment method analysis</li>
+                        <li>✓ Outstanding balances</li>
+                        <li>✓ Profit margins</li>
+                    </ul>
+                    <button class="report-generate-btn" onclick="generateReport('financial-summary')">
+                        Generate Report
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Export All Reports -->
+        <div class="export-all-section">
+            <h3>📦 Export Complete Report Package</h3>
+            <p>Generate and download all reports in a single ZIP file</p>
+            <button class="btn-primary" style="padding: 15px 30px; font-size: 16px;" onclick="exportAllReports()">
+                📥 Export All Reports
+            </button>
+        </div>
+    </main>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/admin/admin-script.js"></script>
+    <script src="../js/admin/admin-reports.js"></script>
+</body>
+</html>
